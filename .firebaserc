@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "project-manager-fb5dd": {
+      "hosting": {
+        "project-manager-ng": [
+          "project-manager-fb5dd"
+        ]
+      }
+    }
+  }
+}

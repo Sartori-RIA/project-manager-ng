@@ -123,6 +123,10 @@
               "devServerTarget": "project-manager-ng:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }
