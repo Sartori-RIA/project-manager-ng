@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PmTrelloComponent } from './pm-trello/pm-trello.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     AppRoutingModule,
     BrowserAnimationsModule,
     DragDropModule,
-    MatToolbarModule
+    MatToolbarModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
