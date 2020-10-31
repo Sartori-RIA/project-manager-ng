@@ -1,10 +1,23 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {ExtraOptions, RouterModule, Routes} from '@angular/router';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: 'projects',
+    loadChildren: () => import('./projects/projects.module').then((m) => m.ProjectsModule)
+  }
+];
+
+const config: ExtraOptions = {
+  useHash: true,
+  anchorScrolling: 'enabled',
+  scrollPositionRestoration: 'enabled',
+  onSameUrlNavigation: 'reload'
+};
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, config)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
