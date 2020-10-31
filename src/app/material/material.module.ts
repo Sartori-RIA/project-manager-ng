@@ -8,6 +8,7 @@ import {MatInputModule} from '@angular/material/input';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 
 const MAT_MODULES = [
   MatListModule,
@@ -17,7 +18,8 @@ const MAT_MODULES = [
   MatInputModule,
   DragDropModule,
   MatToolbarModule,
-  MatDividerModule
+  MatDividerModule,
+  MatDialogModule,
 ];
 
 @NgModule({

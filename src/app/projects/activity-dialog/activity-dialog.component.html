@@ -1,0 +1,16 @@
+<div mat-dialog-title class="text-center">
+{{false ? 'Atualizando #123' : 'Nova Atividade'}}
+</div>
+
+<div mat-dialog-content>
+  <mat-form-field appearance="outline" fxFill >
+    <mat-label>Nome</mat-label>
+    <input matInput>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-stroked-button color="error">Deletar</button>
+  <span fxFlex></span>
+  <button mat-flat-button color="primary">Salvar</button>
+</div>

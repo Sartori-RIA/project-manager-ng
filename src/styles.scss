@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+@import "assets/css/theme";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -9,4 +9,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .mat-divider {
   border-top-color: rgba(110, 105, 105, 0.12);
+}
+
+.text {
+  &-center {
+    text-align: center;
+  }
 }
