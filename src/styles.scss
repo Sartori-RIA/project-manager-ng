@@ -2,3 +2,11 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-list-item {
+  color: black!important;
+}
+
+.mat-divider {
+  border-top-color: rgba(110, 105, 105, 0.12);
+}

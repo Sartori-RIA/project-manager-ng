@@ -7,6 +7,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatDividerModule} from '@angular/material/divider';
 
 const MAT_MODULES = [
   MatListModule,
@@ -16,6 +17,7 @@ const MAT_MODULES = [
   MatInputModule,
   DragDropModule,
   MatToolbarModule,
+  MatDividerModule
 ];
 
 @NgModule({
