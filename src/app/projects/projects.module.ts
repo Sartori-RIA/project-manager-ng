@@ -8,6 +8,7 @@ import {SharedModule} from '../shared/shared.module';
 import {ActivitiesComponent} from './activities/activities.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ActivityDialogComponent} from './activity-dialog/activity-dialog.component';
+import { ProjectDialogComponent } from './project-dialog/project-dialog.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import {ActivityDialogComponent} from './activity-dialog/activity-dialog.compone
     ShowComponent,
     ActivitiesComponent,
     ActivityDialogComponent,
+    ProjectDialogComponent,
   ],
   imports: [
     SharedModule,

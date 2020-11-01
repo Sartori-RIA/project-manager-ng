@@ -11,6 +11,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const MAT_MODULES = [
   MatListModule,
@@ -23,7 +24,8 @@ const MAT_MODULES = [
   MatDividerModule,
   MatDialogModule,
   MatDatepickerModule,
-  MatMomentDateModule
+  MatMomentDateModule,
+  MatTooltipModule
 ];
 
 @NgModule({

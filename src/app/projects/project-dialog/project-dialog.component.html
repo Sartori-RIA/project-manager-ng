@@ -1,9 +1,8 @@
-<div mat-dialog-title class="text-center">
-  {{!!data.activity ? 'Atualizando #' + data?.activity?.id : 'Nova Atividade'}}
+<div mat-dialog-title>
+  {{!!data ? 'Atualizando Projeto #' + data.name : 'Novo Projeto'}}
 </div>
 
 <div mat-dialog-content>
-
   <div [formGroup]="form">
 
     <mat-form-field appearance="outline" fxFill>
@@ -12,14 +11,15 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline" fxFill>
-      <mat-label>Tempo para realização</mat-label>
+      <mat-label>Tempo do projeto</mat-label>
       <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Início" formControlName="start_date">
-        <input matEndDate placeholder="Término" formControlName="end_date">
+        <input matStartDate placeholder="início" formControlName="start_date">
+        <input matEndDate placeholder="término" formControlName="end_date">
       </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
+
   </div>
 </div>
 

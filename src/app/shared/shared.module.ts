@@ -4,6 +4,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MaterialModule} from '../material/material.module';
+import { FabComponent } from './components/fab/fab.component';
 
 
 const NG_MODULES = [
@@ -15,13 +16,14 @@ const NG_MODULES = [
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [FabComponent],
   imports: [
     ...NG_MODULES
   ],
-  exports: [
-    ...NG_MODULES
-  ]
+    exports: [
+        ...NG_MODULES,
+        FabComponent
+    ]
 })
 export class SharedModule {
 }

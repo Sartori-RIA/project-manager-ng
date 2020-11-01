@@ -1,7 +1,8 @@
-<h2>Projetos</h2>
+<app-fab (onFabClick)="openAddDialog()"></app-fab>
+
 <mat-list>
   <ng-container *ngFor="let p of projects$ | async">
-    <mat-list-item [routerLink]="['/projects', p.id]"> {{p.name}}</mat-list-item>
+    <mat-list-item (dblclick)="openEditDialog(p)" [routerLink]="['/projects', p.id]"> {{p.name}}</mat-list-item>
     <mat-divider></mat-divider>
   </ng-container>
 </mat-list>
