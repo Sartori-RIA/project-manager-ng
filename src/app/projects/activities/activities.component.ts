@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
-import {ActivityDialogComponent} from '../activity-dialog/activity-dialog.component';
+import {ActivityDialogComponent, ActivityDialogParams} from '../activity-dialog/activity-dialog.component';
 import {Activity} from '../../core/models/activity';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
@@ -17,7 +17,16 @@ export class ActivitiesComponent implements OnInit {
   projectId: number = this.activatedRoute.snapshot.params.id;
   todo$: Observable<Activity[]> = this.activitiesService.index(this.projectId);
   done$: Observable<Activity[]> = this.activitiesService.index(this.projectId);
-  todo: Activity[] = [];
+  todo: Activity[] = [{
+    name: 'asdasd',
+    id: 1,
+    created_at: new Date(),
+    end_date: new Date(),
+    finished: false,
+    project_id: 1,
+    start_date: new Date(),
+    updated_at: new Date()
+  }];
   done: Activity[] = [];
 
   constructor(private dialog: MatDialog,
@@ -42,14 +51,22 @@ export class ActivitiesComponent implements OnInit {
   }
 
   onAddActivity(): void {
+    const params: ActivityDialogParams = {
+      project_id: this.projectId
+    };
     this.dialog.open(ActivityDialogComponent, {
-      minWidth: '33vh'
+      minWidth: '33vh',
+      data: params
     });
   }
 
   onEditActivity(activity: Activity): void {
+    const params: ActivityDialogParams = {
+      activity,
+      project_id: activity.project_id
+    };
     this.dialog.open(ActivityDialogComponent, {
-      data: activity,
+      data: params,
       minWidth: '33vh'
     });
   }

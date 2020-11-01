@@ -1,10 +1,16 @@
 @import "assets/css/theme";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .mat-list-item {
-  color: black!important;
+  color: black !important;
 }
 
 .mat-divider {
@@ -14,5 +20,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .text {
   &-center {
     text-align: center;
+  }
+}
+
+$sizes: 20;
+@for $i from 1 through $sizes {
+  .p-l-#{$i} {
+    padding-left: #{$i}em;
+  }
+  .p-r-#{$i} {
+    padding-right: #{$i}em;
+  }
+  .p-t-#{$i} {
+    padding-top: #{$i}em;
+  }
+  .p-b-#{$i} {
+    padding-bottom: #{$i}em;
+  }
+  .p-#{$i} {
+    padding: #{$i}em;
   }
 }
