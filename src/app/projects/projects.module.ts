@@ -15,7 +15,7 @@ import {ActivityDialogComponent} from './activity-dialog/activity-dialog.compone
     IndexComponent,
     ShowComponent,
     ActivitiesComponent,
-    ActivityDialogComponent
+    ActivityDialogComponent,
   ],
   imports: [
     SharedModule,

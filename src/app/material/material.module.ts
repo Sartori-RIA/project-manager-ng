@@ -8,7 +8,9 @@ import {MatInputModule} from '@angular/material/input';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatDividerModule} from '@angular/material/divider';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatMomentDateModule} from '@angular/material-moment-adapter';
 
 const MAT_MODULES = [
   MatListModule,
@@ -20,6 +22,8 @@ const MAT_MODULES = [
   MatToolbarModule,
   MatDividerModule,
   MatDialogModule,
+  MatDatepickerModule,
+  MatMomentDateModule
 ];
 
 @NgModule({
