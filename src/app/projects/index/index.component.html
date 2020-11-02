@@ -11,10 +11,16 @@
   <mat-list>
     <ng-container *ngFor="let p of projects">
       <mat-list-item [routerLink]="['/projects', p.id]">
-        {{p.name}} - {{p.progress}}% Concluído
-        <span *ngIf="p?.delayed" class="mat-warn">
-          Projeto irá atrasar
-        </span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
+
+          <span>{{p.name}}</span>
+          <span fxFlex></span>
+          <span>{{p.progress}}% Concluído</span>
+          <span *ngIf="p?.delayed" fxFlex></span>
+          <mat-chip-list *ngIf="p?.delayed">
+            <mat-chip color="warn" selected> Projeto irá atrasar</mat-chip>
+          </mat-chip-list>
+        </div>
       </mat-list-item>
       <mat-divider></mat-divider>
     </ng-container>

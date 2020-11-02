@@ -13,6 +13,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatChipsModule} from '@angular/material/chips';
 
 const MAT_MODULES = [
   MatListModule,
@@ -27,7 +28,8 @@ const MAT_MODULES = [
   MatDatepickerModule,
   MatMomentDateModule,
   MatTooltipModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatChipsModule
 ];
 
 @NgModule({
