@@ -16,7 +16,8 @@ import {ActivityDialogParams, DialogResult} from '../../core/models/dialog-resul
 })
 export class ActivitiesComponent implements OnInit, OnDestroy {
   projectId: number = this.activatedRoute.snapshot.params.id;
-  destroy$ = new Subject<boolean>();
+  todo: Activity[] = [];
+  done: Activity[] = [];
   allActivities$: Observable<Activity[]> = this.activitiesService.index(this.projectId);
   todo$: Observable<Observable<Activity>> = this.allActivities$
     .pipe(
@@ -33,8 +34,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         iif(() => activity.finished, of(activity))
       ),
     );
-  todo: Activity[] = [];
-  done: Activity[] = [];
+  destroy$ = new Subject<boolean>();
 
   constructor(private dialog: MatDialog,
               private activitiesService: ActivitiesService,
@@ -43,20 +43,19 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+    this.destroy$?.next(true);
+    this.destroy$?.unsubscribe();
   }
 
   ngOnInit(): void {
     zip(this.todo$, this.done$)
-      .pipe(take(1))
       .subscribe(([todo$, done$]) => {
-        zip(todo$, done$)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(([todo, done]) => {
-            this.todo.push(todo);
-            this.done.push(done);
-          });
+        todo$.pipe(takeUntil(this.destroy$)).subscribe((todo) => {
+          this.todo.push(todo);
+        });
+        done$.pipe(takeUntil(this.destroy$)).subscribe((done) => {
+          this.done.push(done);
+        });
       });
   }
 
