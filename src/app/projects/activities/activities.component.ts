@@ -60,14 +60,24 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
   }
 
   drop(event: CdkDragDrop<Activity[]>): void {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    const item: Activity = event.item.data;
+    let observable: Observable<Activity>;
+    if (event.container.id === 'cdk-drop-list-0') {
+      observable = this.activitiesService.update(item.project_id, {...item, finished: false});
     } else {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
+      observable = this.activitiesService.update(item.project_id, {...item, finished: true});
     }
+
+    observable.pipe(take(1)).subscribe((activity) => {
+      if (event.previousContainer === event.container) {
+        moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      } else {
+        transferArrayItem(event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex);
+      }
+    });
   }
 
   onAddActivity(): void {
