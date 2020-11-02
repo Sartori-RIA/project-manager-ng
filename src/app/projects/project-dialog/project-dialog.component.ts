@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Project} from '../../core/models/project';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
@@ -17,6 +17,7 @@ export class ProjectDialogComponent implements OnInit {
   });
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Project,
+              public dialogRef: MatDialogRef<ProjectDialogComponent>,
               private fb: FormBuilder) {
   }
 
@@ -28,4 +29,34 @@ export class ProjectDialogComponent implements OnInit {
     });
   }
 
+  onDelete(): void {
+    const result: ProjectDialogResult = {
+      action: 'delete',
+      data: this.mountData()
+    };
+    this.dialogRef.close(result);
+  }
+
+  onSave(): void {
+    const result: ProjectDialogResult = {
+      action: !!this.data ? 'update' : 'create',
+      data: this.mountData()
+    };
+    this.dialogRef.close(result);
+  }
+
+  private mountData(): Project {
+    const values = this.form.value;
+    return {
+      end_date: values.end_date,
+      start_date: values.start_date,
+      name: values.name,
+      id: this.data?.id,
+    };
+  }
+}
+
+export interface ProjectDialogResult {
+  action: 'create' | 'update' | 'delete';
+  data: Project;
 }

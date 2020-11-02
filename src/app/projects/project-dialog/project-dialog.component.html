@@ -24,7 +24,7 @@
 </div>
 
 <div mat-dialog-actions>
-  <button mat-stroked-button color="error">Deletar</button>
+  <button *ngIf="!!data" (click)="onDelete()" mat-stroked-button color="error">Deletar</button>
   <span fxFlex></span>
-  <button mat-flat-button color="primary">Salvar</button>
+  <button (click)="onSave()" mat-flat-button color="primary">Salvar</button>
 </div>

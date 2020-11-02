@@ -1,7 +1,9 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ProjectsService} from '../../core/services/projects.service';
 import {MatDialog} from '@angular/material/dialog';
-import {ProjectDialogComponent} from '../project-dialog/project-dialog.component';
+import {ProjectDialogComponent, ProjectDialogResult} from '../project-dialog/project-dialog.component';
+import {take} from 'rxjs/operators';
+import {Project} from '../../core/models/project';
 
 @Component({
   selector: 'app-index',
@@ -9,9 +11,10 @@ import {ProjectDialogComponent} from '../project-dialog/project-dialog.component
   styleUrls: ['./index.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IndexComponent implements OnInit, OnDestroy {
+export class IndexComponent implements OnInit {
 
   projects$ = this.projectService.index();
+  projects: Project[] = [];
   search: string;
 
   constructor(private projectService: ProjectsService,
@@ -20,21 +23,33 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.setProjects();
   }
-
-  ngOnDestroy(): void {
-  }
-
 
   openAddDialog(): void {
-    this.dialog.open(ProjectDialogComponent, {
+    const res$ = this.dialog.open(ProjectDialogComponent, {
       minWidth: '33vh'
+    });
+    res$.afterClosed().pipe(take(1)).subscribe((res: ProjectDialogResult) => {
+      this.projectService.create(res.data)
+        .pipe(take(1))
+        .subscribe((project) => {
+          this.projects.unshift(project);
+          this.cdRefs.detectChanges();
+        });
     });
   }
 
 
   onSearch(event: string): void {
     this.projects$ = this.projectService.search(event);
-    this.cdRefs.detectChanges();
+    this.setProjects();
+  }
+
+  private setProjects(): void {
+    this.projects$.pipe(take(1)).subscribe((projects) => {
+      this.projects = projects;
+      this.cdRefs.detectChanges();
+    });
   }
 }
