@@ -7,13 +7,16 @@
       </mat-icon>
     </h1>
     <span fxFlex></span>
-    <mat-icon (click)="removeProject()" color="warn">delete</mat-icon>
+    <div>
+      <mat-icon (click)="removeProject()" color="warn">delete</mat-icon>
+      <mat-chip-list *ngIf="project?.delayed">
+        <mat-chip color="warn" selected> Projeto irá atrasar</mat-chip>
+      </mat-chip-list>
+    </div>
   </div>
   <h3>Iniciado em: {{project?.start_date | date: 'dd/MM/yyyy'}}</h3>
   <h3>Termina em: {{project?.end_date | date: 'dd/MM/yyyy'}}</h3>
-  <div *ngIf="project?.delayed">
-    <h3 style="color: red">Projeto irá atrasar</h3>
-  </div>
+
   <mat-progress-bar mode="determinate" [value]="project?.progress"></mat-progress-bar>
 </div>
 
