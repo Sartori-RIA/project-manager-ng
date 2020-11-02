@@ -21,6 +21,11 @@ export class ProjectDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.form.patchValue({
+      name: this.data?.name,
+      start_date: this.data?.start_date,
+      end_date: this.data?.end_date
+    });
   }
 
 }

@@ -18,6 +18,14 @@ export class ProjectsService {
     return this.http.get<Project[]>(this.url);
   }
 
+  show(id: number): Observable<Project> {
+    return this.http.get<Project>(`${this.url}/${id}`);
+  }
+
+  search(search: string): Observable<Project[]> {
+    return this.http.get<Project[]>(`${this.url}/search`, {params: {q: search}});
+  }
+
   create(data: Project): Observable<Project> {
     return this.http.post<Project>(this.url, data);
   }

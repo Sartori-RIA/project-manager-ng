@@ -17,16 +17,7 @@ export class ActivitiesComponent implements OnInit {
   projectId: number = this.activatedRoute.snapshot.params.id;
   todo$: Observable<Activity[]> = this.activitiesService.index(this.projectId);
   done$: Observable<Activity[]> = this.activitiesService.index(this.projectId);
-  todo: Activity[] = [{
-    name: 'asdasd',
-    id: 1,
-    created_at: new Date(),
-    end_date: new Date(),
-    finished: false,
-    project_id: 1,
-    start_date: new Date(),
-    updated_at: new Date()
-  }];
+  todo: Activity[] = [];
   done: Activity[] = [];
 
   constructor(private dialog: MatDialog,

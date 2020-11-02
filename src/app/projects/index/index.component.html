@@ -1,8 +1,17 @@
 <app-fab (onFabClick)="openAddDialog()"></app-fab>
+<div class="p-l-4 p-r-4 p-t-4 p-b-3">
 
-<mat-list>
-  <ng-container *ngFor="let p of projects$ | async">
-    <mat-list-item (dblclick)="openEditDialog(p)" [routerLink]="['/projects', p.id]"> {{p.name}}</mat-list-item>
-    <mat-divider></mat-divider>
-  </ng-container>
-</mat-list>
+  <mat-form-field appearance="outline" fxFill>
+    <mat-label>Buscar projeto</mat-label>
+    <input [(ngModel)]="search" (ngModelChange)="onSearch($event)" matInput placeholder="Placeholder">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</div>
+<div class="p-1">
+  <mat-list>
+    <ng-container *ngFor="let p of projects$ | async">
+      <mat-list-item [routerLink]="['/projects', p.id]"> {{p.name}} - {{p.progress}}% Concluído</mat-list-item>
+      <mat-divider></mat-divider>
+    </ng-container>
+  </mat-list>
+</div>

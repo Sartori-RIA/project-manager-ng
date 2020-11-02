@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {ShowComponent} from './show/show.component';
 import {IndexComponent} from './index/index.component';
+import {ProjectResolve} from "../core/resolvers/project.resolve";
 
 const routes: Routes = [
   {
@@ -10,7 +11,11 @@ const routes: Routes = [
   },
   {
     path: ':id',
-    component: ShowComponent
+    component: ShowComponent,
+    runGuardsAndResolvers: 'always',
+    resolve: {
+      project: ProjectResolve
+    }
   }
 ];
 
