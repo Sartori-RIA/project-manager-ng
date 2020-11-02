@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
 import {ActivityDialogComponent} from '../activity-dialog/activity-dialog.component';
@@ -15,6 +15,7 @@ import {ActivityDialogParams, DialogResult} from '../../core/models/dialog-resul
   styleUrls: ['./activities.component.scss'],
 })
 export class ActivitiesComponent implements OnInit, OnDestroy {
+  @Output() checkProjectProgress = new EventEmitter();
   projectId: number = this.activatedRoute.snapshot.params.id;
   todo: Activity[] = [];
   done: Activity[] = [];
@@ -68,7 +69,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
       observable = this.activitiesService.update(item.project_id, {...item, finished: true});
     }
 
-    observable.pipe(take(1)).subscribe((activity) => {
+    observable.pipe(take(1)).subscribe(() => {
+      this.checkProjectProgress.emit();
       if (event.previousContainer === event.container) {
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       } else {
@@ -93,7 +95,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
   private openDialog(activity?: Activity): void {
     const params: ActivityDialogParams = {
       activity,
-      project_id: activity.project_id
+      project_id: this.projectId
     };
     const ref$ = this.dialog.open(ActivityDialogComponent, {
       data: params,
@@ -120,6 +122,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.todo.push(data);
         this.cdRef.detectChanges();
+        this.checkProjectProgress.emit();
       });
   }
 
@@ -130,6 +133,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         const index = this.todo.findIndex((a) => a.id === data.id);
         this.todo.splice(index, 1, data);
         this.cdRef.detectChanges();
+        this.checkProjectProgress.emit();
       });
   }
 
@@ -140,6 +144,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         const index = this.todo.findIndex((a) => a.id === activity.id);
         this.todo.splice(index, 1);
         this.cdRef.detectChanges();
+        this.checkProjectProgress.emit();
       });
   }
 }

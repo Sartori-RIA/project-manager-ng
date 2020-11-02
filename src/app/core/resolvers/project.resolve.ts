@@ -13,7 +13,6 @@ export class ProjectResolve implements Resolve<Project> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Project> | Promise<Project> | Project {
- //   return this.service.show(route.params.id);
-    return null;
+    return this.service.show(route.params.id);
   }
 }
