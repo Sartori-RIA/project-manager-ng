@@ -1,12 +1,12 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
 import {ActivityDialogComponent} from '../activity-dialog/activity-dialog.component';
 import {Activity} from '../../core/models/activity';
-import {Observable} from 'rxjs';
+import {iif, Observable, of, Subject, zip} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {ActivitiesService} from '../../core/services/activities.service';
-import {take} from 'rxjs/operators';
+import {flatMap, map, take, takeUntil} from 'rxjs/operators';
 import {ActivityDialogParams, DialogResult} from '../../core/models/dialog-result';
 
 @Component({
@@ -14,10 +14,25 @@ import {ActivityDialogParams, DialogResult} from '../../core/models/dialog-resul
   templateUrl: './activities.component.html',
   styleUrls: ['./activities.component.scss'],
 })
-export class ActivitiesComponent implements OnInit {
+export class ActivitiesComponent implements OnInit, OnDestroy {
   projectId: number = this.activatedRoute.snapshot.params.id;
-  todo$: Observable<Activity[]> = this.activitiesService.index(this.projectId);
-  done$: Observable<Activity[]> = this.activitiesService.index(this.projectId);
+  destroy$ = new Subject<boolean>();
+  allActivities$: Observable<Activity[]> = this.activitiesService.index(this.projectId);
+  todo$: Observable<Observable<Activity>> = this.allActivities$
+    .pipe(
+      flatMap((activity) => activity),
+      map((activity: Activity) =>
+        iif(() => !activity.finished, of(activity))
+      ),
+    );
+
+  done$: Observable<Observable<Activity>> = this.allActivities$
+    .pipe(
+      flatMap((activity) => activity),
+      map((activity: Activity) =>
+        iif(() => activity.finished, of(activity))
+      ),
+    );
   todo: Activity[] = [];
   done: Activity[] = [];
 
@@ -27,12 +42,25 @@ export class ActivitiesComponent implements OnInit {
               private activatedRoute: ActivatedRoute) {
   }
 
-  ngOnInit(): void {
-    this.todo$.pipe(take(1)).subscribe((todo) => this.todo = todo);
-    this.done$.pipe(take(1)).subscribe((done) => this.done = done);
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
-  drop(event: CdkDragDrop<string[]>): void {
+  ngOnInit(): void {
+    zip(this.todo$, this.done$)
+      .pipe(take(1))
+      .subscribe(([todo$, done$]) => {
+        zip(todo$, done$)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(([todo, done]) => {
+            this.todo.push(todo);
+            this.done.push(done);
+          });
+      });
+  }
+
+  drop(event: CdkDragDrop<Activity[]>): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {

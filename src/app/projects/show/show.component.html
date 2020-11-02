@@ -9,10 +9,10 @@
     <span fxFlex></span>
     <mat-icon (click)="removeProject()" color="warn">delete</mat-icon>
   </div>
-  <h3>Iniciado em: {{project.start_date | date: 'dd/MM/yyyy'}}</h3>
-  <h3>Termina em: {{project.end_date | date: 'dd/MM/yyyy'}}</h3>
+  <h3>Iniciado em: {{project?.start_date | date: 'dd/MM/yyyy'}}</h3>
+  <h3>Termina em: {{project?.end_date | date: 'dd/MM/yyyy'}}</h3>
 
-  <mat-progress-bar mode="determinate" [value]="project.progress"></mat-progress-bar>
+  <mat-progress-bar mode="determinate" [value]="project?.progress"></mat-progress-bar>
 </div>
 
 <mat-divider></mat-divider>
