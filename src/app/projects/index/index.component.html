@@ -10,7 +10,12 @@
 <div class="p-1">
   <mat-list>
     <ng-container *ngFor="let p of projects">
-      <mat-list-item [routerLink]="['/projects', p.id]"> {{p.name}} - {{p.progress}}% Concluído</mat-list-item>
+      <mat-list-item [routerLink]="['/projects', p.id]">
+        {{p.name}} - {{p.progress}}% Concluído
+        <span *ngIf="p?.delayed" class="mat-warn">
+          Projeto irá atrasar
+        </span>
+      </mat-list-item>
       <mat-divider></mat-divider>
     </ng-container>
   </mat-list>

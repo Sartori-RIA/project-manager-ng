@@ -11,7 +11,9 @@
   </div>
   <h3>Iniciado em: {{project?.start_date | date: 'dd/MM/yyyy'}}</h3>
   <h3>Termina em: {{project?.end_date | date: 'dd/MM/yyyy'}}</h3>
-
+  <div *ngIf="project?.delayed" class="mat-warn">
+    Projeto irá atrasar
+  </div>
   <mat-progress-bar mode="determinate" [value]="project?.progress"></mat-progress-bar>
 </div>
 

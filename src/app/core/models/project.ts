@@ -6,4 +6,5 @@ export interface Project extends BaseModel {
   end_date: Date;
   progress?: number;
   finished?: boolean;
+  delayed?: boolean;
 }
