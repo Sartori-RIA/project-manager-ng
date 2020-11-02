@@ -1,13 +1,13 @@
-<div class="p-3" *ngIf="project$ | async; let project">
+<div class="p-3">
   <div>
 
-    <h1 (click)="openEditDialog(project)">Projeto: {{project?.name}}
+    <h1 (click)="openEditDialog()">Projeto: {{project?.name}}
       <mat-icon>
         create
       </mat-icon>
     </h1>
     <span fxFlex></span>
-    <mat-icon color="warn">delete</mat-icon>
+    <mat-icon (click)="removeProject()" color="warn">delete</mat-icon>
   </div>
   <h3>Iniciado em: {{project.start_date | date: 'dd/MM/yyyy'}}</h3>
   <h3>Termina em: {{project.end_date | date: 'dd/MM/yyyy'}}</h3>
