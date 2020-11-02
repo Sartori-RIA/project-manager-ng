@@ -1,9 +1,10 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ProjectsService} from '../../core/services/projects.service';
 import {MatDialog} from '@angular/material/dialog';
-import {ProjectDialogComponent, ProjectDialogResult} from '../project-dialog/project-dialog.component';
+import {ProjectDialogComponent} from '../project-dialog/project-dialog.component';
 import {take} from 'rxjs/operators';
 import {Project} from '../../core/models/project';
+import {DialogResult} from '../../core/models/dialog-result';
 
 @Component({
   selector: 'app-index',
@@ -30,8 +31,8 @@ export class IndexComponent implements OnInit {
     const res$ = this.dialog.open(ProjectDialogComponent, {
       minWidth: '33vh'
     });
-    res$.afterClosed().pipe(take(1)).subscribe((res: ProjectDialogResult) => {
-      this.projectService.create(res.data)
+    res$.afterClosed().pipe(take(1)).subscribe((res: DialogResult) => {
+      this.projectService.create(res.project)
         .pipe(take(1))
         .subscribe((project) => {
           this.projects.unshift(project);

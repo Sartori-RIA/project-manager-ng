@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Project} from '../../core/models/project';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {DialogResult} from '../../core/models/dialog-result';
 
 @Component({
   selector: 'app-project-dialog',
@@ -30,17 +31,17 @@ export class ProjectDialogComponent implements OnInit {
   }
 
   onDelete(): void {
-    const result: ProjectDialogResult = {
+    const result: DialogResult = {
       action: 'delete',
-      data: this.mountData()
+      project: this.mountData()
     };
     this.dialogRef.close(result);
   }
 
   onSave(): void {
-    const result: ProjectDialogResult = {
+    const result: DialogResult = {
       action: !!this.data ? 'update' : 'create',
-      data: this.mountData()
+      project: this.mountData()
     };
     this.dialogRef.close(result);
   }
@@ -56,7 +57,3 @@ export class ProjectDialogComponent implements OnInit {
   }
 }
 
-export interface ProjectDialogResult {
-  action: 'create' | 'update' | 'delete';
-  data: Project;
-}

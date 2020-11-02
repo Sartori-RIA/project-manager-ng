@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
-import {ActivityDialogComponent, ActivityDialogParams} from '../activity-dialog/activity-dialog.component';
+import {ActivityDialogComponent} from '../activity-dialog/activity-dialog.component';
 import {Activity} from '../../core/models/activity';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {ActivitiesService} from '../../core/services/activities.service';
 import {take} from 'rxjs/operators';
+import {ActivityDialogParams, DialogResult} from '../../core/models/dialog-result';
 
 @Component({
   selector: 'app-activities',
@@ -22,6 +23,7 @@ export class ActivitiesComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
               private activitiesService: ActivitiesService,
+              private cdRef: ChangeDetectorRef,
               private activatedRoute: ActivatedRoute) {
   }
 
@@ -42,23 +44,65 @@ export class ActivitiesComponent implements OnInit {
   }
 
   onAddActivity(): void {
-    const params: ActivityDialogParams = {
-      project_id: this.projectId
-    };
-    this.dialog.open(ActivityDialogComponent, {
-      minWidth: '33vh',
-      data: params
-    });
+    this.openDialog();
   }
 
   onEditActivity(activity: Activity): void {
+    if (!activity.finished) {
+      this.openDialog(activity);
+    }
+  }
+
+  private openDialog(activity?: Activity): void {
     const params: ActivityDialogParams = {
       activity,
       project_id: activity.project_id
     };
-    this.dialog.open(ActivityDialogComponent, {
+    const ref$ = this.dialog.open(ActivityDialogComponent, {
       data: params,
       minWidth: '33vh'
     });
+    ref$.afterClosed().pipe(take(1)).subscribe((result: DialogResult) => {
+      switch (result.action) {
+        case 'create':
+          this.addActivity(result.activity);
+          break;
+        case 'update':
+          this.updateActivity(result.activity);
+          break;
+        case 'delete':
+          this.removeActivity(result.activity);
+          break;
+      }
+    });
+  }
+
+  private addActivity(activity: Activity): void {
+    this.activitiesService.create(activity.project_id, activity)
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.todo.push(data);
+        this.cdRef.detectChanges();
+      });
+  }
+
+  private updateActivity(activity: Activity): void {
+    this.activitiesService.update(activity.project_id, activity)
+      .pipe(take(1))
+      .subscribe((data) => {
+        const index = this.todo.findIndex((a) => a.id === data.id);
+        this.todo.splice(index, 1, data);
+        this.cdRef.detectChanges();
+      });
+  }
+
+  private removeActivity(activity: Activity): void {
+    this.activitiesService.destroy(activity.project_id, activity.id)
+      .pipe(take(1))
+      .subscribe(() => {
+        const index = this.todo.findIndex((a) => a.id === activity.id);
+        this.todo.splice(index, 1);
+        this.cdRef.detectChanges();
+      });
   }
 }

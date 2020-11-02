@@ -3,9 +3,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {map, take} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {Project} from '../../core/models/project';
-import {ProjectDialogComponent, ProjectDialogResult} from '../project-dialog/project-dialog.component';
+import {ProjectDialogComponent} from '../project-dialog/project-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ProjectsService} from '../../core/services/projects.service';
+import {DialogResult} from '../../core/models/dialog-result';
 
 @Component({
   selector: 'app-show',
@@ -32,8 +33,8 @@ export class ShowComponent implements OnInit {
       data: this.project,
       minWidth: '33vh'
     });
-    refs$.afterClosed().pipe(take(1)).subscribe((params: ProjectDialogResult) => {
-      this.projectService.update(params.data)
+    refs$.afterClosed().pipe(take(1)).subscribe((params: DialogResult) => {
+      this.projectService.update(params.project)
         .pipe(take(1))
         .subscribe((res) => this.project = res);
     });
